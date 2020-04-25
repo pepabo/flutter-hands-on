@@ -20,7 +20,26 @@ class MyPage extends StatelessWidget {
 
   Widget _notLoggedInSection(BuildContext context) {
     return Center(
-      child: Text("ログインする"),
+      child: GestureDetector(
+        onTap: () async {
+          // ログインする
+        },
+        child: Container(
+          child: Text(
+            "ログインする",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          padding: EdgeInsets.only(top: 8, bottom: 8, right: 24, left: 24),
+          decoration: BoxDecoration(
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.circular(
+                8.0,
+              )),
+        ),
+      ),
     );
   }
 }
