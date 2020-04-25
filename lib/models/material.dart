@@ -1,4 +1,4 @@
-import 'package:flutter_hands_on/user.dart';
+import 'package:flutter_hands_on/models/user.dart';
 
 class SuzuriMaterial {
   final int id;
