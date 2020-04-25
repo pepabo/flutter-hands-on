@@ -8,7 +8,11 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () async {
+        print("tapped");
+      },
+      child: Container(
         margin: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
@@ -19,6 +23,8 @@ class ProductCard extends StatelessWidget {
             ),
             Text("${product.price.toString()}円"),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
