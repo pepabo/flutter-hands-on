@@ -20,10 +20,13 @@ class MyPage extends StatelessWidget {
           user.profile.headerUrl.isEmpty
               ? Container()
               : SizedBox(
-                  height: 200,
+                  height: 150,
                   child: Opacity(
                     opacity: 0.5,
-                    child: Image.network(user.profile.headerUrl),
+                    child: Image.network(
+                      user.profile.headerUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
           Padding(
