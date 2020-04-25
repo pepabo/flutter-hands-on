@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hands_on/components/product_card.dart';
+import 'package:flutter_hands_on/pages/home.dart';
+import 'package:flutter_hands_on/pages/my_page.dart';
 import 'package:flutter_hands_on/pages/product_detail.dart';
 import 'package:flutter_hands_on/stores/product_list_store.dart';
+import 'package:flutter_hands_on/stores/tab_bar_store.dart';
 import 'package:provider/provider.dart';
 
 // main()はFlutterアプリケーションのエントリポイントです
@@ -11,9 +14,8 @@ void main() async {
   await DotEnv().load('.env');
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-        create: (context) => ProductListStore(),
-      )
+      ChangeNotifierProvider(create: (context) => ProductListStore()),
+      ChangeNotifierProvider(create: (context) => TabBarStore()),
     ],
     child: MyApp(),
   ));
@@ -42,48 +44,49 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<TabBarStore>(context);
+    final controller = PageController();
     return Scaffold(
       appBar: AppBar(
         title: const Text("SUZURI"),
       ),
-      body: _productsList(context),
+      body: PageView(
+        children: <Widget>[
+          Home(),
+          MyPage(),
+        ],
+        controller: controller,
+        onPageChanged: (index) async {
+          Provider.of<TabBarStore>(context, listen: false)
+              .updateCurrentIndex(index);
+          if (controller.hasClients) {
+            controller.jumpToPage(index);
+          }
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            title: Text("ホーム"),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text("マイページ"),
+            icon: Icon(Icons.my_location),
+          ),
+        ],
+        onTap: (index) async {
+          print(index.toString());
+          Provider.of<TabBarStore>(context, listen: false)
+              .updateCurrentIndex(index);
+          if (controller.hasClients) {
+            controller.animateToPage(index,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeInOutSine);
+          }
+        },
+        currentIndex: store.currentIndex,
+      ),
     );
-  }
-
-  Widget _productsList(BuildContext context) {
-    final store = Provider.of<ProductListStore>(context);
-    final products = store.products;
-    if (products.isEmpty) {
-      return Container(
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.7,
-            ),
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return Container(
-                color: Colors.grey,
-                margin: EdgeInsets.all(16),
-              );
-            }),
-      );
-    } else {
-      return Container(
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.7,
-            ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              return ProductCard(product: products[index]);
-            }),
-      );
-    }
   }
 }
