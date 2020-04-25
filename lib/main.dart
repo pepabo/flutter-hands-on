@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         ProductDetail.routeName: (context) => ProductDetail(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
