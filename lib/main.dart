@@ -22,7 +22,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Provider.of<ProductListStore>(context, listen: false).fetchNextProducts();
+    final store = Provider.of<ProductListStore>(context, listen: false);
+    if (store.products.isEmpty) {
+      store.fetchNextProducts();
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
