@@ -4,6 +4,7 @@ import 'package:flutter_hands_on/components/product_card.dart';
 import 'package:flutter_hands_on/pages/home.dart';
 import 'package:flutter_hands_on/pages/my_page.dart';
 import 'package:flutter_hands_on/pages/product_detail.dart';
+import 'package:flutter_hands_on/stores/login_state_store.dart';
 import 'package:flutter_hands_on/stores/product_list_store.dart';
 import 'package:flutter_hands_on/stores/tab_bar_store.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => ProductListStore()),
       ChangeNotifierProvider(create: (context) => TabBarStore()),
+      ChangeNotifierProvider(create: (context) => LoginStateStore()),
     ],
     child: MyApp(),
   ));
