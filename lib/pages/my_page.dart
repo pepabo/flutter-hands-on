@@ -17,78 +17,10 @@ class MyPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          user.profile.headerUrl.isEmpty
-              ? Container()
-              : SizedBox(
-                  height: 150,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.network(
-                      user.profile.headerUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    user.avatarURL,
-                    height: 100,
-                  ),
-                ),
-                SizedBox(
-                  width: 50,
-                ),
-                Text(
-                  user.name,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 32,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(user.profile.body),
-          ),
-          Row(
-            children: <Widget>[
-              Spacer(
-                flex: 1,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Provider.of<LoginStateStore>(context, listen: false).logout();
-                },
-                child: Container(
-                  child: Text(
-                    "ログアウト",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  padding:
-                      EdgeInsets.only(top: 8, bottom: 8, right: 24, left: 24),
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(
-                      8.0,
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(
-                flex: 1,
-              ),
-            ],
-          ),
+          _header(context, user),
+          _userSection(context, user),
+          _userProfileSection(context, user),
+          _footerSection(context, user),
         ],
       ),
     );
@@ -116,6 +48,89 @@ class MyPage extends StatelessWidget {
               )),
         ),
       ),
+    );
+  }
+
+  Widget _header(BuildContext context, User user) {
+    return user.profile.headerUrl.isEmpty
+        ? Container()
+        : SizedBox(
+            height: 150,
+            child: Opacity(
+              opacity: 0.5,
+              child: Image.network(
+                user.profile.headerUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+  }
+
+  Widget _userSection(BuildContext context, User user) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(
+              user.avatarURL,
+              height: 100,
+            ),
+          ),
+          SizedBox(
+            width: 50,
+          ),
+          Text(
+            user.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _footerSection(BuildContext context, User user) {
+    return Row(
+      children: <Widget>[
+        Spacer(
+          flex: 1,
+        ),
+        GestureDetector(
+          onTap: () {
+            Provider.of<LoginStateStore>(context, listen: false).logout();
+          },
+          child: Container(
+            child: Text(
+              "ログアウト",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            padding: EdgeInsets.only(top: 8, bottom: 8, right: 24, left: 24),
+            decoration: BoxDecoration(
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.circular(
+                8.0,
+              ),
+            ),
+          ),
+        ),
+        Spacer(
+          flex: 1,
+        ),
+      ],
+    );
+  }
+
+  Widget _userProfileSection(BuildContext context, User user) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(user.profile.body),
     );
   }
 }
