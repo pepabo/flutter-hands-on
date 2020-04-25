@@ -50,6 +50,10 @@ class MyPage extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(user.profile.body),
+          ),
           Row(
             children: <Widget>[
               Spacer(
