@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // main()はFlutterアプリケーションのエントリポイントです
 // main()の中で、runAppにルートとなるウィジェットを格納して呼ぶ必要があります
-void main() => runApp(MyApp());
+void main() async {
+  await DotEnv().load('.env');
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
