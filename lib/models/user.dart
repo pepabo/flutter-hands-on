@@ -1,16 +1,18 @@
+import 'package:flutter_hands_on/models/profile.dart';
+
 class User {
   final int id;
   final String name;
   final String displayName;
   final String avatarURL;
-  // final Profile profile;
+  final Profile profile;
 
   User({
     this.id,
     this.name,
     this.displayName,
     this.avatarURL,
-    // this.profile,
+    this.profile,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -19,8 +21,8 @@ class User {
       name: json['name'] as String,
       displayName: json['displayName'] as String,
       avatarURL: json['avatarUrl'] as String,
-      // profile:
-      //     json['profile'] == null ? null : Profile.fromJson(json['profile']),
+      profile:
+          json['profile'] == null ? null : Profile.fromJson(json['profile']),
     );
   }
 }

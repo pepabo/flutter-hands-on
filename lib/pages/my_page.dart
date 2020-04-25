@@ -13,8 +13,77 @@ class MyPage extends StatelessWidget {
   }
 
   Widget _loggedInSection(BuildContext context, User user) {
-    return Center(
-      child: Text(user.name),
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          user.profile.headerUrl.isEmpty
+              ? Container()
+              : SizedBox(
+                  height: 200,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Image.network(user.profile.headerUrl),
+                  ),
+                ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.network(
+                    user.avatarURL,
+                    height: 100,
+                  ),
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Text(
+                  user.name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 32,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Spacer(
+                flex: 1,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Provider.of<LoginStateStore>(context, listen: false).logout();
+                },
+                child: Container(
+                  child: Text(
+                    "ログアウト",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  padding:
+                      EdgeInsets.only(top: 8, bottom: 8, right: 24, left: 24),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(
+                      8.0,
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(
+                flex: 1,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
