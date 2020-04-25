@@ -22,7 +22,7 @@ class MyPage extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () async {
-          // ログインする
+          Provider.of<LoginStateStore>(context, listen: false).login();
         },
         child: Container(
           child: Text(
