@@ -11,11 +11,26 @@ class ProductDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text("商品詳細"),
       ),
-      body: Container(
-        child: Center(
-          child: Text(
-            product.title,
-          ),
+      body: _body(context, product),
+    );
+  }
+
+  Widget _body(BuildContext context, Product product) {
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Image.network(product.sampleImageUrl),
+            Text(
+              product.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(product.item.humanizeName),
+            Text("${product.price.toString()}円"),
+            Text("作った人: ${product.material.user.name}"),
+          ],
         ),
       ),
     );
