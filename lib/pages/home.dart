@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<ProductListStore>(context);
+    final store = context.watch<ProductListStore>();
     final products = store.products;
     if (products.isEmpty) {
       return Container(

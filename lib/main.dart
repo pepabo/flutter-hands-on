@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_hands_on/components/product_card.dart';
 import 'package:flutter_hands_on/pages/home.dart';
 import 'package:flutter_hands_on/pages/my_page.dart';
 import 'package:flutter_hands_on/pages/product_detail.dart';
@@ -23,13 +22,27 @@ void main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final store = context.read<ProductListStore>();
+      if (store.products.isEmpty) {
+        store.fetchNextProducts();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<ProductListStore>(context, listen: false);
-    if (store.products.isEmpty) {
-      store.fetchNextProducts();
-    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -47,7 +60,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<TabBarStore>(context);
+    final store = context.watch<TabBarStore>();
     final controller = PageController();
     return Scaffold(
       appBar: AppBar(
@@ -60,8 +73,7 @@ class MyHomePage extends StatelessWidget {
         ],
         controller: controller,
         onPageChanged: (index) async {
-          Provider.of<TabBarStore>(context, listen: false)
-              .updateCurrentIndex(index);
+          context.read<TabBarStore>().updateCurrentIndex(index);
           if (controller.hasClients) {
             controller.jumpToPage(index);
           }
@@ -80,8 +92,7 @@ class MyHomePage extends StatelessWidget {
         ],
         onTap: (index) async {
           print(index.toString());
-          Provider.of<TabBarStore>(context, listen: false)
-              .updateCurrentIndex(index);
+          context.read<TabBarStore>().updateCurrentIndex(index);
           if (controller.hasClients) {
             controller.animateToPage(index,
                 duration: Duration(milliseconds: 400),
