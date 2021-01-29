@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final store = Provider.of<ProductListStore>(context, listen: false);
+      final store = context.read<ProductListStore>();
       if (store.products.isEmpty) {
         store.fetchNextProducts();
       }
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<TabBarStore>(context);
+    final store = context.watch<TabBarStore>();
     final controller = PageController();
     return Scaffold(
       appBar: AppBar(
@@ -70,8 +70,7 @@ class MyHomePage extends StatelessWidget {
         ],
         controller: controller,
         onPageChanged: (index) async {
-          Provider.of<TabBarStore>(context, listen: false)
-              .updateCurrentIndex(index);
+          context.read<TabBarStore>().updateCurrentIndex(index);
           if (controller.hasClients) {
             controller.jumpToPage(index);
           }
@@ -90,8 +89,7 @@ class MyHomePage extends StatelessWidget {
         ],
         onTap: (index) async {
           print(index.toString());
-          Provider.of<TabBarStore>(context, listen: false)
-              .updateCurrentIndex(index);
+          context.read<TabBarStore>().updateCurrentIndex(index);
           if (controller.hasClients) {
             controller.animateToPage(index,
                 duration: Duration(milliseconds: 400),
