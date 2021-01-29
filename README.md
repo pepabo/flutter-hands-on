@@ -1,16 +1,22 @@
 # flutter_hands_on
-
-A new Flutter project.
+Sample Flutter Application.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Clone
+```
+$ git clone git@github.com:pepabo/flutter-hands-on.git
+```
 
-A few resources to get you started if this is your first Flutter project:
+### Put Your Token on `.env`
+```
+TOKEN='your_access_token'
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+You can find your token at [SUZURI Developer](https://suzuri.jp/developer/apps)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Get Dependencies and Run
+```
+$ flutter pub get
+$ flutter run
+```
