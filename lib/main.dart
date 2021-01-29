@@ -20,13 +20,27 @@ void main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final store = Provider.of<ProductListStore>(context, listen: false);
+      if (store.products.isEmpty) {
+        store.fetchNextProducts();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final store = Provider.of<ProductListStore>(context, listen: false);
-    if (store.products.isEmpty) {
-      store.fetchNextProducts();
-    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
